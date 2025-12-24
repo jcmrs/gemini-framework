@@ -1,7 +1,13 @@
 [aliases]
-init = "gemini -p 'Initialize session using gemini/skills/framework-methodology.md'"
-review = "gemini -p 'Read gemini/skills/code-review.md and start a systematic code review. Scope: $1'"
-brainstorm = "gemini -p 'Read gemini/skills/brainstorming.md and start a brainstorming session. Topic: $1'"
-log = "gemini -p 'Read gemini/skills/conversation-log.md and document the current session.'"
+# The 'g' alias is the main entry point using the launcher
+g = "node gemini/scripts/launch.js"
+
+# Specialized commands now flow through the launcher to ensure CIFO context
+init = "node gemini/scripts/launch.js 'Initialize session. Review framework-methodology.md and confirm Cycle status.'"
+review = "node gemini/scripts/launch.js 'Start code review (gemini/skills/code-review.md). Scope: $1'"
+brainstorm = "node gemini/scripts/launch.js 'Start brainstorming (gemini/skills/brainstorming.md). Topic: $1'"
+log = "node gemini/scripts/launch.js 'Document session (gemini/skills/conversation-log.md).'"
+
+# Maintenance
 hydrate = "node gemini/scripts/hydrate.js"
 sync = "node gemini/scripts/sync.js"
