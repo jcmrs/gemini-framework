@@ -57,8 +57,21 @@
         -   Pre-load the last conversation summary.
     3.  **Alias Update:** Re-map `gemini` commands to use this launcher.
 
-## Phase 5: Build - The Cognitive Launcher
-**Goal:** Implement a persistent SRE environment for Gemini CLI.
+## Phase 5: Build - The Gemini Kernel (Runtime Infrastructure)
+**Date:** 2025-12-24
+- **Pivot:** Shifted from "Scripted Adaptation" to "Runtime Infrastructure" based on domain analysis.
+- **Architecture:**
+    - **Kernel (`gemini/kernel`):** A persistent Node.js application that acts as the "Operating System" for the session.
+    - **Supervisor:** Wraps the Gemini CLI process, enforcing the CIFO protocol via prompt injection (and prepared for future output interception).
+    - **Hydrator (`gemini/kernel/lib/hydrator.js`):** Dynamically builds the "Memory" from YAML profiles at runtime, allowing for context-specific injection.
+    - **State Manager (`gemini/kernel/lib/state_manager.js`):** Manages the persistent `state.json` to track "Adoption Cycles" and calibrate scaffolding.
+- **Integration:**
+    - Updated `.gemini.toml` to route all commands (`g`, `init`, `review`, `log`) through the Kernel.
+    - Archived static scripts (`launch.js`, `hydrate.js`).
+
+## Next Steps
+- **Observability:** Implement the log parsing logic in the Kernel to automatically update the `state.json` based on session performance.
+- **Skill Dispatch:** Refactor the Kernel to support specific "Skill Modes" that inject only the relevant skill context (e.g., `code-review.md`) alongside the methodology.
 
 ## Future Avenues
 - **Extensions:** Explore wrapping these skills into a formal Gemini Extension (JSON manifest) for easier installation.

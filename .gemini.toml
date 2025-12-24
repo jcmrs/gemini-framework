@@ -1,13 +1,14 @@
 [aliases]
-# The 'g' alias is the main entry point using the launcher
-g = "node gemini/scripts/launch.js"
+# Main Entry Point
+g = "node gemini/kernel/bin/kernel.js"
 
-# Specialized commands now flow through the launcher to ensure CIFO context
-init = "node gemini/scripts/launch.js 'Initialize session. Review framework-methodology.md and confirm Cycle status.'"
-review = "node gemini/scripts/launch.js 'Start code review (gemini/skills/code-review.md). Scope: $1'"
-brainstorm = "node gemini/scripts/launch.js 'Start brainstorming (gemini/skills/brainstorming.md). Topic: $1'"
-log = "node gemini/scripts/launch.js 'Document session (gemini/skills/conversation-log.md).'"
+# Specialized Commands (Routed through Kernel)
+init = "node gemini/kernel/bin/kernel.js 'Initialize session. Review framework-methodology.md and confirm Cycle status.'"
+review = "node gemini/kernel/bin/kernel.js 'Start code review (gemini/skills/code-review.md). Scope: $1'"
+brainstorm = "node gemini/kernel/bin/kernel.js 'Start brainstorming (gemini/skills/brainstorming.md). Topic: $1'"
+log = "node gemini/kernel/bin/kernel.js 'Document session (gemini/skills/conversation-log.md).'"
 
 # Maintenance
-hydrate = "node gemini/scripts/hydrate.js"
+hydrate = "node gemini/kernel/bin/kernel.js --hydrate-only" 
+# (Note: Kernel needs to support flags, for now we keep the script)
 sync = "node gemini/scripts/sync.js"
