@@ -59,6 +59,7 @@ ${hydratedMethodology}
 
 ---
 SESSION CONTEXT
+Active Profile: ${hydrator.config.settings.profile}
 Cycle: ${cycle}
 Last Summary: ${stateManager.state.context.last_summary || 'None'}
 ---
