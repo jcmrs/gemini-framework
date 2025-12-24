@@ -1,0 +1,7 @@
+[aliases]
+init = "gemini -p 'Initialize session using gemini/skills/framework-methodology.md'"
+review = "gemini -p 'Read gemini/skills/code-review.md and start a systematic code review. Scope: $1'"
+brainstorm = "gemini -p 'Read gemini/skills/brainstorming.md and start a brainstorming session. Topic: $1'"
+log = "gemini -p 'Read gemini/skills/conversation-log.md and document the current session.'"
+hydrate = "node gemini/scripts/hydrate.js"
+sync = "node gemini/scripts/sync.js"
