@@ -57,21 +57,20 @@
         -   Pre-load the last conversation summary.
     3.  **Alias Update:** Re-map `gemini` commands to use this launcher.
 
-## Phase 5: Build - The Gemini Kernel (Runtime Infrastructure)
+## Phase 6: Build - The Gemini Cortex (Cognitive Organism)
 **Date:** 2025-12-24
-- **Pivot:** Shifted from "Scripted Adaptation" to "Runtime Infrastructure" based on domain analysis.
-- **Architecture:**
-    - **Kernel (`gemini/kernel`):** A persistent Node.js application that acts as the "Operating System" for the session.
-    - **Supervisor:** Wraps the Gemini CLI process, enforcing the CIFO protocol via prompt injection (and prepared for future output interception).
-    - **Hydrator (`gemini/kernel/lib/hydrator.js`):** Dynamically builds the "Memory" from YAML profiles at runtime, allowing for context-specific injection.
-    - **State Manager (`gemini/kernel/lib/state_manager.js`):** Manages the persistent `state.json` to track "Adoption Cycles" and calibrate scaffolding.
+- **Pivot 2.0:** Reframed the project from "Tool Adaptation" to "Synthetic Cognitive Environment".
+- **Architecture (`gemini/cortex`):**
+    - **Cortex (`bin/cortex.js`):** The Executive Function. Orchestrates Perception, Recall, Orientation, and Action.
+    - **Synapse (`lib/synapse.js`):** The Memory Engine. Dynamically synthesizes the "Memory Graph" by resolving profile inheritance chains (`DEVELOPER` <- `ENGINEER` <- `COLLABORATION`) at runtime.
+    - **Hippocampus (`lib/hippocampus.js`):** The Psychologist. Manages persistent state and analyzes session metrics to consolidate "Adoption Cycles".
 - **Integration:**
-    - Updated `.gemini.toml` to route all commands (`g`, `init`, `review`, `log`) through the Kernel.
-    - Archived static scripts (`launch.js`, `hydrate.js`).
+    - Updated `.gemini.toml` to route all interaction through the Cortex.
+    - Removed `gemini/kernel` (Legacy Wrapper).
+- **Outcome:** The system now functions as an "Organism" where the Node.js runtime handles the cognitive architecture (SRE/Behavioral Logic) and uses Gemini CLI solely as the language center.
 
 ## Next Steps
-- **Observability:** Implement the log parsing logic in the Kernel to automatically update the `state.json` based on session performance.
-- **Skill Dispatch:** Refactor the Kernel to support specific "Skill Modes" that inject only the relevant skill context (e.g., `code-review.md`) alongside the methodology.
+- **The "Loop":** Implement the output interception in `cortex.js` to enable the "Psychologist" to analyze the *actual* thought trace before the user sees it (Glass Box enforcement).
 
 ## Future Avenues
 - **Extensions:** Explore wrapping these skills into a formal Gemini Extension (JSON manifest) for easier installation.

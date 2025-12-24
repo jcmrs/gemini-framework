@@ -1,14 +1,13 @@
 [aliases]
-# Main Entry Point
-g = "node gemini/kernel/bin/kernel.js"
+# The 'g' alias interacts with the Gemini Cortex (Cognitive Organism)
+g = "node gemini/cortex/bin/cortex.js"
 
-# Specialized Commands (Routed through Kernel)
-init = "node gemini/kernel/bin/kernel.js 'Initialize session. Review framework-methodology.md and confirm Cycle status.'"
-review = "node gemini/kernel/bin/kernel.js 'Start code review (gemini/skills/code-review.md). Scope: $1'"
-brainstorm = "node gemini/kernel/bin/kernel.js 'Start brainstorming (gemini/skills/brainstorming.md). Topic: $1'"
-log = "node gemini/kernel/bin/kernel.js 'Document session (gemini/skills/conversation-log.md).'"
+# Specialized Modes
+init = "node gemini/cortex/bin/cortex.js 'Initialize session. Review framework-methodology.md and confirm Cycle status.'"
+review = "node gemini/cortex/bin/cortex.js 'Start code review (gemini/skills/code-review.md). Scope: $1'"
+brainstorm = "node gemini/cortex/bin/cortex.js 'Start brainstorming (gemini/skills/brainstorming.md). Topic: $1'"
+log = "node gemini/cortex/bin/cortex.js 'Document session (gemini/skills/conversation-log.md).'"
 
 # Maintenance
-hydrate = "node gemini/kernel/bin/kernel.js --hydrate-only" 
-# (Note: Kernel needs to support flags, for now we keep the script)
+hydrate = "echo 'Hydration is now dynamic via Cortex Synapse.'"
 sync = "node gemini/scripts/sync.js"

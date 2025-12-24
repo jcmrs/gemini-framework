@@ -1,0 +1,10 @@
+{
+  "name": "gemini-cortex",
+  "version": "1.0.0",
+  "description": "Cognitive Organism Runtime for Gemini CLI",
+  "main": "bin/cortex.js",
+  "scripts": {
+    "start": "node bin/cortex.js"
+  },
+  "dependencies": {}
+}
