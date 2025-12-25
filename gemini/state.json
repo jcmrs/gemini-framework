@@ -62,7 +62,11 @@
       "create_test_script": 1,
       "run_test": 1,
       "cleanup_test": 1,
-      "final_check": 1
+      "final_check": 1,
+      "stage_log_and_state": 1,
+      "commit_log_and_state": 1,
+      "checkout_main": 1,
+      "commit_state_cleanup": 1
     },
     "feeling_counts": {
       "negative": 0,
