@@ -1,0 +1,5 @@
+node_modules/
+.serena/
+.gemini/tmp/
+gemini/mcp-server/node_modules/
+*.log
