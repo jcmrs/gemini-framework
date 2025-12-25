@@ -1,0 +1,14 @@
+{
+  "general": {
+    "model": "gemini-3-pro-preview"
+  },
+  "mcpServers": {
+    "cortex": {
+      "command": "node",
+      "args": ["C:/Development/gemini-framework/gemini/mcp-server/src/index.js"],
+      "env": {
+        "NODE_ENV": "production"
+      }
+    }
+  }
+}

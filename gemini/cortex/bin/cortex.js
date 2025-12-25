@@ -11,7 +11,7 @@ const STATE_PATH = path.join(ROOT_DIR, 'gemini/state.json');
 const SKILLS_DIR = path.join(ROOT_DIR, 'gemini/skills');
 
 // Initialize The Brain
-const synapse = new Synapse(CONFIG_PATH);
+const synapse = new Synapse(CONFIG_PATH, ROOT_DIR);
 const hippocampus = new Hippocampus(STATE_PATH);
 
 // Recall & Orient
@@ -22,18 +22,15 @@ const cycle = hippocampus.state.framework.adoption_cycle;
 // Scaffolding (The SRE Configuration)
 const SCAFFOLDING = {
     'Getting Started': {
-        prefix: "CYCLE: Getting Started. Scaffolding: MAX. 
-CRITICAL: Execute CIFO protocol explicitly. Do not skip.",
+        prefix: 'CYCLE: Getting Started. Scaffolding: MAX.\nCRITICAL: Execute CIFO protocol explicitly. Do not skip.',
         verbosity: "high"
     },
     'Working Naturally': {
-        prefix: "CYCLE: Working Naturally. Scaffolding: MEDIUM. 
-Execute CIFO. Trust your observations.",
+        prefix: 'CYCLE: Working Naturally. Scaffolding: MEDIUM.\nExecute CIFO. Trust your observations.',
         verbosity: "medium"
     },
     'Fully Integrated': {
-        prefix: "CYCLE: Fully Integrated. Scaffolding: MIN. 
-Methodology is internalized. Monitor for drift.",
+        prefix: 'CYCLE: Fully Integrated. Scaffolding: MIN.\nMethodology is internalized. Monitor for drift.',
         verbosity: "low"
     }
 };
@@ -46,14 +43,11 @@ const userQuery = process.argv.slice(2).join(' ');
 
 // Inject Memory into Methodology (Dynamic Synaptic Weighting)
 const memoryJson = JSON.stringify({ profiles: memory }, null, 2);
+const jsonBlock = "<!-- framework-memory-start -->\n```json\n" + memoryJson + "\n```\n<!-- framework-memory-end -->";
+
 const hydratedMethodology = methodology.replace(
     /(<!-- framework-memory-start -->)[\s\S]*?(<!-- framework-memory-end -->)/,
-    `$1\n\
-```json\
-${memoryJson}
-\
-```
-$2`
+    jsonBlock
 );
 
 const systemPrompt = `
@@ -75,14 +69,56 @@ console.log(`[Cortex] Cycle: ${cycle}`);
 console.log(`[Cortex] Engaging Language Center (Gemini)...`);
 
 // Launch The Organism
-// We use 'inherit' for now, but this is where the "Loop" would intercept output
-// to perform the "Psychologist" analysis before showing it to the user.
-const child = spawn('gemini', ['-p', finalPrompt], {
-    stdio: 'inherit',
-    shell: true
+console.log(`[Cortex] Attempting to spawn 'gemini' (Native) with context...`);
+
+const isWindows = process.platform === 'win32';
+const shell = isWindows ? 'powershell.exe' : true;
+
+// 1. Write the Context to a file to bypass CLI limits
+const contextFile = path.join(__dirname, '../memory/active_context.md');
+fs.writeFileSync(contextFile, finalPrompt, 'utf8');
+console.log(`[Cortex] Context written to: ${contextFile}`);
+
+// 2. Construct a "Pointer Prompt" that fits in the CLI
+const bootPrompt = `SYSTEM BOOT: You are the Gemini Cognitive Organism. Your core behavioral architecture is defined in the file "${contextFile}". You MUST read this file immediately and adopt the CIFO protocol defined within it. Do not hallucinate; read the file. Await user input only after initializing.`;
+
+// 3. Spawn Gemini in Interactive Mode with the Pointer Prompt
+const child = spawn('gemini', ['-i', `"${bootPrompt.replace(/"/g, '\\"')}"`], {
+    stdio: 'inherit', // Let the user interact directly with the TTY
+    shell: shell
+});
+
+// SAFETY: Cleanup child process on termination
+const cleanup = () => {
+    if (child && !child.killed) {
+        console.log('\n[Cortex] Terminating Neural Link...');
+        try {
+            process.stdin.unpipe(child.stdin);
+            child.kill();
+        } catch (e) {
+            // Ignore kill errors
+        }
+    }
+    process.exit();
+};
+
+process.on('SIGINT', cleanup);
+process.on('SIGTERM', cleanup);
+
+child.on('error', (err) => {
+    console.error(`\n[Cortex CRITICAL ERROR] Failed to launch 'gemini'.`);
+    console.error(`Error details: ${err.message}`);
+});
+
+child.on('spawn', () => {
+    console.log(`[Cortex] Neural Link Established. Boot sequence initiated.`);
 });
 
 child.on('exit', (code) => {
-    // In the future: Parse stdout logs here -> Call hippocampus.consolidate(metrics)
-    console.log(`[Cortex] Session Complete.`);
+    if (code !== 0 && code !== null) {
+        console.log(`[Cortex] Session ended with code ${code}.`);
+    } else {
+        console.log(`[Cortex] Session Complete.`);
+    }
+    process.exit(code || 0);
 });

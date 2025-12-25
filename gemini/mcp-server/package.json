@@ -1,0 +1,12 @@
+{
+  "name": "gemini-cortex-mcp",
+  "version": "1.0.0",
+  "description": "Behavioral Cortex MCP Server for Gemini",
+  "main": "src/index.js",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "latest"
+  },
+  "scripts": {
+    "start": "node src/index.js"
+  }
+}

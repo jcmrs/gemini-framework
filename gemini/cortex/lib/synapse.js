@@ -3,9 +3,10 @@ const path = require('path');
 const yaml = require('./vendor/js-yaml.min.js');
 
 class Synapse {
-  constructor(configPath) {
+  constructor(configPath, rootDir) {
     this.config = JSON.parse(fs.readFileSync(configPath, 'utf8'));
-    this.profilesDir = path.join(path.dirname(configPath), this.config.settings.paths.profiles);
+    // Resolve profiles relative to the Project Root provided by the Cortex
+    this.profilesDir = path.join(rootDir, this.config.settings.paths.profiles);
     this.profileCache = new Map();
   }
 
@@ -17,6 +18,12 @@ class Synapse {
   resolvePath(profileName) {
     const domainPath = path.join(this.profilesDir, `${profileName.toLowerCase()}.yaml`);
     const commonPath = path.join(this.profilesDir, 'common', `${profileName.toLowerCase()}.yaml`);
+    
+    // Debug logging
+    // console.log(`[Synapse Debug] Looking for '${profileName}' at:`);
+    // console.log(`  Domain: ${domainPath}`);
+    // console.log(`  Common: ${commonPath}`);
+
     return fs.existsSync(domainPath) ? domainPath : (fs.existsSync(commonPath) ? commonPath : null);
   }
 
